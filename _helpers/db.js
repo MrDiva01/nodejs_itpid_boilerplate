@@ -1,6 +1,6 @@
 const config = require('config.json');
 const mysql = require('mysql2/promise');
-const { Sequelize} = require('sequelize');
+const { Sequelize } = require('sequelize');
 
 module.exports = db = {};
 
@@ -17,13 +17,19 @@ async function initialize() {
 
     // init models and add them to the exported db object
     db.Account = require('../accounts/account.model')(sequelize); 
-    db.RefreshToken= require('../accounts/refresh-token.model')(sequelize);
-    db.Category= require('../category-based/category.model')(sequelize);
+    db.RefreshToken = require('../accounts/refresh-token.model')(sequelize);
+    db.Category = require('../category-based/category.model')(sequelize);
+
+    // Add ExpenseTracker models
+    const { IncomeEntry, ExpenseEntry, Summary } = require('../expensetracker/expensetracker.model')(sequelize);
+    db.IncomeEntry = IncomeEntry;
+    db.ExpenseEntry = ExpenseEntry;
+    db.Summary = Summary;
 
     // define relationships
-    db.Account.hasMany (db.RefreshToken, { onDelete: 'CASCADE' });
+    db.Account.hasMany(db.RefreshToken, { onDelete: 'CASCADE' });
     db.RefreshToken.belongsTo(db.Account);
 
-    // sync all models with database await sequelize.sync();
+    // sync all models with database
     await sequelize.sync();
 }

@@ -60,6 +60,7 @@ app.use(cors({ origin: (origin, callback) => callback(null, true), credentials: 
 // API routes
 app.use('/accounts', require('./accounts/accounts.controller'));
 app.use('/category', require('./category-based/category.controller'));
+app.use('/expensetracker', require('./expensetracker/expensetracker.controller'));
 app.use(errorHandler);
 
 // Start server
