@@ -31,13 +31,13 @@ async function create(params) {
     // save account
     await category.save();
     
-    return basicDetails (category);
+    return basicDetails(category);
 }
 
-async function _delete(id) {
-    const category = await getCategory(id);
-    await category.destroy();
-    
+async function _delete(id, category) {
+    const categoryEntry = await db.Category.findOne({ where: { id, category } });
+    if (!categoryEntry) throw 'Category item not found';
+    await categoryEntry.destroy();
 }
 
 // helper functions

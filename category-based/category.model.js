@@ -15,9 +15,7 @@ function model(sequelize) {
     const options = {
         // Disable default timestamp fields (createdAt and updatedAt)
         timestamps: false,
-        // Exclude password hash by default
-        };
-            
-            return sequelize.define('category', attributes, options);
-
     };
+
+    return sequelize.define('Category', attributes, options);
+}

@@ -10,7 +10,7 @@ const categoryService = require('./category.service');
 router.get('/', getAll);
 router.get('/:id', getById);
 router.post('/', createSchema, create);
-router.delete('/:id', authorize(), _delete);
+router.delete('/:id/:category', authorize(), _delete);
 
 module.exports = router;
 
@@ -43,11 +43,8 @@ function create(req, res, next) {
 }
 
 function _delete(req, res, next) {
-    if (Number(req.params.id) !== req.user.id && req.user.role !== Role.Admin) {
-        return res.status(401).json({ message: 'Unauthorized' });
-    }
-
-    categoryService.delete(req.params.id)
-        .then(() => res.json({ message: 'Account deleted successfully' }))
+    const { id, category } = req.params;
+    categoryService.delete(id, category)
+        .then(() => res.json({ message: 'Expense deleted successfully' }))
         .catch(next);
 }
