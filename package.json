@@ -1,5 +1,5 @@
 {
-        "name": "node-mysql-signup-verification-api",
+        "name": "ITPIDdb",
         "version": "1.0.0",
         "description": "NodeJS and MySQL API for Email Sign Up with Verification, Authentication & Forgot Password",
         "license": "MIT",

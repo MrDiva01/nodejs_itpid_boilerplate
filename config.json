@@ -4,7 +4,7 @@
         "port": 3306,        
         "user": "root",        
         "password": "",
-        "database": "node-mysql-signup-verification-api"        
+        "database": "ITPIDdb"        
         },        
         "secret": "dad3f8c7128e44f4896eaf649fb4ba3f",        
         "emailFrom": "info@node-mysql-signup-verification-api.com",        

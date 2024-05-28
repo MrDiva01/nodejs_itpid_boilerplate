@@ -62,6 +62,7 @@ app.use('/accounts', require('./accounts/accounts.controller'));
 app.use('/category', require('./category-based/category.controller'));
 app.use('/expensetracker', require('./expensetracker/expensetracker.controller'));
 app.use(errorHandler);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Start server
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;

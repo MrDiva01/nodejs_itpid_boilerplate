@@ -5,6 +5,8 @@ const validateRequest = require('_middleware/validate-request');
 const authorize = require('_middleware/authorize');
 const Role = require('_helpers/role');
 const accountService = require('./account.service');
+const upload = require('_middleware/multerConfig');
+const path = require('path');
 
 // Routes
 router.post('/authenticate', authenticateSchema, authenticate);
@@ -19,6 +21,7 @@ router.get('/', authorize(Role.Admin), getAll);
 router.get('/:id', authorize(), getById);
 router.post('/', authorize(Role.Admin), createSchema, create);
 router.put('/:id', authorize(), updateSchema, update);
+router.put('/:id', authorize(), upload.single('profilePicture'), updateSchema, update);
 router.delete('/:id', authorize(), _delete);
 
 module.exports = router;
@@ -186,7 +189,8 @@ function updateSchema(req, res, next) {
         lastName: Joi.string().empty(''),
         email: Joi.string().email().empty(''),
         password: Joi.string().min(6).empty(),
-        confirmPassword: Joi.string().valid(Joi.ref('password')).empty('')
+        confirmPassword: Joi.string().valid(Joi.ref('password')).empty(''),
+        profilePicture: Joi.any().optional()
     };
 
     if (req.user.role === Role.Admin) {
@@ -202,9 +206,9 @@ function update(req, res, next) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    accountService.update(req.params.id, req.body)
-        .then(account => res.json(account))
-        .catch(next);
+    accountService.update(req.params.id, { ...req.body, profilePicture: req.file }, path)
+    .then(account => res.json(account))
+    .catch(next);
 }
 
 function _delete(req, res, next) {
